@@ -1,7 +1,10 @@
 import requests
 import pandas as pd
 
-response = requests.get('http://localhost:5000/data')
+url = 'https://producer-api.internal.icymeadow-dc61bc99.centralus.azurecontainerapps.io/data'
+# url = 'http://producer-api:5000/data' Local
+
+response = requests.get(url)
 data = response.json()
 
 df = pd.DataFrame(data)
