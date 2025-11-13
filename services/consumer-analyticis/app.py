@@ -1,8 +1,10 @@
 import requests
+import os
 import pandas as pd
+from dotenv import load_dotenv
 
-url = 'https://producer-api.internal.icymeadow-dc61bc99.centralus.azurecontainerapps.io/data'
-# url = 'http://producer-api:5000/data' Local
+load_dotenv()
+url = os.getenv('API_URL', '')
 
 response = requests.get(url)
 data = response.json()
