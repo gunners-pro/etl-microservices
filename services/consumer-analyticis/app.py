@@ -1,20 +1,17 @@
-import requests
 import os
 import pandas as pd
 import plotly.express as px
 from dotenv import load_dotenv
 from flask import Flask
 from waitress import serve
+from .extract import extract_dataframe
 
 load_dotenv()
 url = os.getenv('API_URL', '')
 
 app = Flask(__name__)
 
-response = requests.get(url)
-data = response.json()
-
-df = pd.DataFrame(data)
+df = extract_dataframe(url)
 
 df.dropna()
 df["purchase_date"] = pd.to_datetime(df["purchase_date"])
