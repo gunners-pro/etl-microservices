@@ -1009,4 +1009,7 @@ def data():
     return mock_data
 
 if __name__ == "__main__":
+    print("✅ Server running...")
+    print("Press CTRL+C to quit.")
+
     serve(app, host="0.0.0.0", port=5000)
