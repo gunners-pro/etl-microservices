@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask
 from waitress import serve
 from extract import extract_dataframe
-from transform import transform_dataframe
+from transform import TransformDataframe
 
 load_dotenv()
 url = os.getenv('API_URL', '')
@@ -12,11 +12,11 @@ url = os.getenv('API_URL', '')
 app = Flask(__name__)
 
 df = extract_dataframe(url)
-df_transformed = transform_dataframe(df)
 
 @app.route('/', methods=["GET"])
 def home():
-    fig = px.bar(df_transformed, x='sales_rep', y='total_sales', labels={"total_sales": "Quantidade(Milhões)", "sales_rep":"Vendedores"}, title="Total de Vendas Por Vendedor")
+    df_sales_by_rep = TransformDataframe.sales_by_rep(df)
+    fig = px.bar(df_sales_by_rep, x='sales_rep', y='total_sales', labels={"total_sales": "Quantidade(Milhões)", "sales_rep":"Vendedores"}, title="Total de Vendas Por Vendedor")
     return fig.to_html()
 
 if __name__ == '__main__':
