@@ -1,0 +1,24 @@
+services:
+  producer-api:
+    build: ./services/producer-api
+    container_name: producer-api
+    ports:
+      - "5000:5000"
+    networks:
+      - appnet
+
+  consumer-analitycs:
+    build: ./services/consumer-analyticis
+    container_name: consumer-analitycs
+    ports:
+      - "5001:5001"
+    environment:
+      - API_URL=http://producer-api:5000/data
+    networks:
+      - appnet
+    depends_on:
+      - producer-api
+
+networks:
+  appnet:
+    driver: bridge
