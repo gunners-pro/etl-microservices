@@ -5,7 +5,10 @@ from waitress import serve
 from extract import extract_dataframe
 from transform import TransformDataframe
 from clean import CleanDataframe
-from plot import chart_sales_by_rep
+from plot import (
+    chart_sales_by_rep,
+    chart_sales_by_month
+)
 
 load_dotenv()
 url = os.getenv('API_URL', '')
@@ -22,10 +25,12 @@ def home():
 
     # 3) Transform
     df_sales_by_rep = TransformDataframe.sales_by_rep(df_clean)
+    df_sales_by_month = TransformDataframe.sales_by_month(df_clean)
 
     # 4) Graphics Plot
-    fig = chart_sales_by_rep(df_sales_by_rep)
-    return fig.to_html(full_html=True)
+    fig_sales_by_rep = chart_sales_by_rep(df_sales_by_rep).to_html()
+    fig_sales_by_month = chart_sales_by_month(df_sales_by_month).to_html()
+    return fig_sales_by_rep + fig_sales_by_month
 
 if __name__ == '__main__':
     print("✅ Server running...")
